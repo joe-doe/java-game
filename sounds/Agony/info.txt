@@ -1,0 +1,25 @@
+Archive created by -=MIRSOFT=-
+Look for game MODs at http://go.to/gamemods
+
+*** Archive info ***
+Archiver: UnExoticA
+Type: Game rip
+Format: MOD
+Original Composer: Tim Wright, Franck Sauer, Jeroen Tel, Martin Wall, Robert Ling, Matthew Simmonds, Martin Iveson, Allister Brimble
+Tracker: Tim Wright, Franck Sauer, Martin Wall, Robert Ling, Matthew Simmonds, Martin Iveson, Allister Brimble
+Num of tunes: 12
+Complete: 100% mods
+
+*** Game info ***
+Name: Agony
+Platform: Amiga
+Year: 1992
+Genre: Shooter
+Publisher: Psygnosis
+Developer: Art & Magic
+
+*** Additional info ***
+The composer credits are taken directly from the ingame credits, and from the game manual.
+The unused section is all the music from the 1991 rolling demo.
+The ingame music is provided in DeliTracker CUSTOM and original "Art & Magic" format, which 
+requires a special Art & Magic DeliPlayer. Of course, in this archive are only MODs.

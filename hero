@@ -1,0 +1,178 @@
+package game.play;
+
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javax.swing.ImageIcon;
+
+public class Hero implements Runnable {
+
+	private final int groundLevel = 433;
+	private final int jumpLevel = 283;
+
+	private Image heroImage = null;
+	private Image heroLeft = null;
+	private Image heroRight = null;
+	private Image heroStop = null;
+	private float x = 150;
+	private float y = groundLevel;
+	private float velocityX = 0;
+	private float velocityY = 0;
+	private float gravity = 0;
+	
+	Timer jumpRefreshTimer = null;
+	Thread manageJump = null;
+	boolean onJump = false;
+	boolean jumpCycleCompleted = false;
+	Board board = null;
+
+	public Hero(Board newBoard) {
+		board = newBoard;
+		heroLeft = (new ImageIcon(
+				"/data/DevelopersCorner/Eclipse/JavaGame_2/images/taz_Left.png")
+				.getImage());
+		heroRight = (new ImageIcon(
+				"/data/DevelopersCorner/Eclipse/JavaGame_2/images/taz_Right.png")
+				.getImage());
+		heroStop = (new ImageIcon(
+				"/data/DevelopersCorner/Eclipse/JavaGame_2/images/taz_Stop.png")
+				.getImage());
+		heroImage = heroRight;
+
+		jumpRefreshTimer = new Timer();
+
+	}
+
+	@Override
+	public void run() {
+		if (onJump == true) {
+			while (jumpCycleCompleted == false) {
+				jumpCycle(y);
+			}
+			// p("Jump done");
+			jumpCycleCompleted = false;
+			onJump = false;
+		}
+	}
+
+	public void jumpCycle(float currentY) {
+
+		y=currentY+velocityY;
+		
+//		if (currentY <= groundLevel && currentY > jumpLevel && velocityY <= 0) {
+//			// System.out.println("1. Y: " + currentY);
+//			velocityY = -3.5F;
+//		} else if (velocityY > 0) {
+//			System.out.println("2. Y: " + currentY + " < groundlevel:"
+//					+ groundLevel);
+//			velocityY = 3.5F;
+//		} else if (currentY >= groundLevel || velocityY==0) {
+//			// System.out.println("3. Y: " + currentY);
+//			velocityY = 0;
+//			y = groundLevel;
+//			jumpCycleCompleted = true;
+//		} else {
+//			p("Y"+currentY);
+//		}
+//		// }
+	}
+
+	public void move(long timeBetweenUpates) {
+		float wantToGoToX = x + (velocityX * timeBetweenUpates) / 8;
+		float wantToGoToY = y + (velocityY * timeBetweenUpates) / 8;
+
+		// p("X:" + wantToGoToX + " Y:" + wantToGoToY);
+		if (detectCollisionX(wantToGoToX) == false) {
+			x = wantToGoToX;
+		}
+		if (detectCollisionY(wantToGoToY) == false) {
+			y = wantToGoToY;
+		}
+	}
+
+	public void moveLeft() {
+		// if (velocityX > -2) {
+		// velocityX = velocityX - 1;
+		// }
+		velocityX = -1;
+		heroImage = heroLeft;
+
+	}
+
+	public void moveRight() {
+		// if (velocityX < 2) {
+		// velocityX = velocityX + 1;
+		// }
+		velocityX = 1;
+		heroImage = heroRight;
+
+	}
+
+	public void freeze() {
+		velocityX = 0;
+		heroImage = heroStop;
+	}
+
+	public void jump() {
+		if (onJump == false) {
+			onJump = true;
+			manageJump = new Thread(this);
+			manageJump.start();
+		}
+	}
+
+	public Image getImage() {
+		return this.heroImage;
+	}
+
+	public float getX() {
+		return this.x;
+	}
+
+	public float getY() {
+		return this.y;
+	}
+
+	public void setVelocityX(float newXvelocity) {
+		this.velocityX = newXvelocity;
+	}
+
+	public void setVelocityY(float newYvelocity) {
+		this.velocityY = newYvelocity;
+	}
+
+	public void p(String printThis) {
+		System.out.println(printThis);
+	}
+
+	public boolean detectCollisionX(float wantToGoToX) {
+		boolean answer = false;
+		// if (board.rect.contains(new Point2D.Double(wantToGoToX, y))) {
+		Rectangle2D.Double r = new Rectangle2D.Double(wantToGoToX, y,
+				heroImage.getWidth(null), 1);
+		if (board.rect.intersects(r)) {
+			// p("Can't go to x:" + wantToGoToX);
+			answer = true;
+		}
+		return answer;
+	}
+
+	public boolean detectCollisionY(float wantToGoToY) {
+		boolean answer = false;
+		Rectangle2D.Double r = new Rectangle2D.Double(x, wantToGoToY,
+				heroImage.getWidth(null), 1);
+		// if (board.rect.contains(new Point2D.Double(x, wantToGoToY))) {
+		if (board.rect.intersects(r)) {
+			// p("Can't go to y:" + wantToGoToY);
+			answer = true;
+			velocityY = 0;
+		}
+		return answer;
+
+	}
+}

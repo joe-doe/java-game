@@ -1,0 +1,19 @@
+Archive created by -=MIRSOFT=-
+Look for game MODs at http://go.to/gamemods
+
+*** Archive info ***
+Archiver: Mirsoft
+Type: Converted
+Format: MOD
+Original Composer: David Whittaker
+Tracker: Jogeir Liljedahl
+Num of tunes: 4
+Complete: 
+
+*** Game info ***
+Name: Shadow of the Beast
+Platform: Amiga
+Year: 1989
+Genre: Action
+Publisher: Psygnosis
+Developer: Reflections
